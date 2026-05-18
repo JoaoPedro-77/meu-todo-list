@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de tarefas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Lista de tarefas</h1>
+    <p class="subtitle">Suas tarefas ficam salvas neste navegador.</p>
+
+    <div class="panel">
+      <form class="js-form form-row" autocomplete="off">
+        <input
+          class="js-name-input"
+          type="text"
+          placeholder="O que vai fazer?"
+          maxlength="200"
+          aria-label="Nome da tarefa"
+        >
+        <div
+          class="date-fields"
+          role="group"
+          aria-label="Data da tarefa (opcional), dia mês e ano"
+        >
+          <select class="js-due-day" aria-label="Dia">
+            <option value="">Dia</option>
+          </select>
+          <select class="js-due-month" aria-label="Mês">
+            <option value="">Mês</option>
+            <option value="1">jan</option>
+            <option value="2">fev</option>
+            <option value="3">mar</option>
+            <option value="4">abr</option>
+            <option value="5">mai</option>
+            <option value="6">jun</option>
+            <option value="7">jul</option>
+            <option value="8">ago</option>
+            <option value="9">set</option>
+            <option value="10">out</option>
+            <option value="11">nov</option>
+            <option value="12">dez</option>
+          </select>
+          <select class="js-due-year" aria-label="Ano">
+            <option value="">Ano</option>
+          </select>
+        </div>
+        <input
+          class="js-due-time"
+          type="time"
+          lang="pt-BR"
+          step="60"
+          aria-label="Horário em que fará a tarefa (opcional)"
+        >
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+      </form>
+    </div>
+
+    <div class="js-todo-list" role="region" aria-live="polite" aria-label="Tarefas"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
