@@ -9,6 +9,7 @@ const listEl = document.querySelector(".js-todo-list");
 const form = document.querySelector(".js-form");
 
 let todos = load();
+let chartInstance = null;
 
 function load() {
   try {
@@ -72,6 +73,7 @@ function buildScheduleLine(item) {
 }
 
 function render() {
+  updateDashboard();
   if (todos.length === 0) {
     listEl.innerHTML =
       '<p class="empty">Nenhuma tarefa ainda. Digite acima e clique em Adicionar.</p>';
@@ -97,6 +99,7 @@ function render() {
       item.done = cb.checked;
       li.classList.toggle("done", item.done);
       save();
+      updateDashboard();
     });
 
     const text = document.createElement("span");
@@ -222,5 +225,65 @@ fillYearOptions();
 fillDayOptions();
 monthSelect.addEventListener("change", fillDayOptions);
 yearSelect.addEventListener("change", fillDayOptions);
+
+function updateDashboard() {
+  const total = todos.length;
+  const completed = todos.filter((t) => t.done).length;
+  const pending = total - completed;
+  const ratio = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+  // Atualiza os textos
+  const totalEl = document.querySelector(".js-stat-total");
+  const doneEl = document.querySelector(".js-stat-done");
+  const pendingEl = document.querySelector(".js-stat-pending");
+  const ratioEl = document.querySelector(".js-stat-ratio");
+
+  if (totalEl) totalEl.textContent = String(total);
+  if (doneEl) doneEl.textContent = String(completed);
+  if (pendingEl) pendingEl.textContent = String(pending);
+  if (ratioEl) ratioEl.textContent = `${ratio}%`;
+
+  const canvas = document.getElementById("todoChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  // Destrói gráfico anterior se houver
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  // Se não houver tarefas, exibe um gráfico "vazio" neutro
+  const chartData = total > 0 ? [completed, pending] : [0, 1];
+  const chartColors = total > 0 
+    ? ["#6bcf7f", "#3d9cf0"] 
+    : ["#2d3a4d", "#2d3a4d"];
+
+  chartInstance = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: total > 0 ? ["Concluídas", "Pendentes"] : ["Nenhuma tarefa", ""],
+      datasets: [
+        {
+          data: chartData,
+          backgroundColor: chartColors,
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: "75%",
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          enabled: total > 0,
+        },
+      },
+    },
+  });
+}
 
 render();

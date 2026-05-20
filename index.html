@@ -58,9 +58,34 @@
       </form>
     </div>
 
+    <div class="panel dashboard-panel">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value js-stat-total">0</span>
+          <span class="stat-label">Total</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value js-stat-done">0</span>
+          <span class="stat-label">Concluídas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value js-stat-pending">0</span>
+          <span class="stat-label">Pendentes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value js-stat-ratio">0%</span>
+          <span class="stat-label">Eficiência</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="todoChart"></canvas>
+      </div>
+    </div>
+
     <div class="js-todo-list" role="region" aria-live="polite" aria-label="Tarefas"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
